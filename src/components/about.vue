@@ -127,33 +127,19 @@ const list = '/list';
     methods: {
   
       player(src, index){
-        // console.log(src,index);
+        src = list +src;
+        console.log(src,index);
         let self = this;
         if(src == this.vsrc){
           this.bofang();
         }else {
           this.$refs.vaudio.autoplay = "ture";
-          //增加代理字符
-          this.vsrc = list+src;
+          this.vsrc = src;
           //保存是列表中的那一首歌
           this.state.who = index;
-        }
-      },
-      bofang(){
-        // console.log(this.state.showbfzt);
-        // console.log(this.vsrc);
-        // console.log(this.state.who);
-        if(this.state.showbfzt){
-          this.$refs.vaudio.play().catch(function (e) {
-            console.log("a.play catch>", e);
-          });
-          this.state.showbfzt = !this.state.showbfzt;
-        }else{
-          this.$refs.vaudio.pause();
-          this.state.showbfzt = !this.state.showbfzt;
-        }
-        let self = this;
-        axios.get('/list/music/萧敬腾 - 王妃.lrc')
+          //这里没有调用歌词方法
+        // console.log(list+self.music[self.state.who].lrc);
+        axios.get(list+self.music[self.state.who].lrc)
           .then(function(response){
             self.geci.geci = response.data;
              //解析歌词
@@ -161,6 +147,42 @@ const list = '/list';
             //  console.log(response.data);
           })
           .catch(function(error){
+            //没有lrc的时候要清空歌词
+            self.geci.geci =[];
+            //解析歌词
+            self.parse(self.geci.geci);
+            console.log(error);
+          });
+        }
+       
+      },
+      bofang(){
+        // console.log(this.state.showbfzt);
+        // console.log(this.vsrc);
+        // console.log(this.state.who);
+         this.state.showbfzt = !this.state.showbfzt;
+         console.log(this.state.showbfzt);
+        if(!this.state.showbfzt){
+          this.$refs.vaudio.play().catch(function (e) {
+            console.log("a.play catch>", e);
+          });
+        }else{
+          this.$refs.vaudio.pause();
+        }
+        let self = this;
+        // console.log(list+self.music[self.state.who].lrc);
+        axios.get(list+self.music[self.state.who].lrc)
+          .then(function(response){
+            self.geci.geci = response.data;
+             //解析歌词
+            self.parse(self.geci.geci);
+            //  console.log(response.data);
+          })
+          .catch(function(error){
+            //没有lrc的时候要清空歌词
+            self.geci.geci =[];
+            //解析歌词
+            self.parse(self.geci.geci);
             console.log(error);
           });
         // //解析歌词
@@ -172,11 +194,13 @@ const list = '/list';
         if(this.state.who == 0){
           let length = this.music.length;
           let src = this.music[length-1].url;
-          this.player(src, length-1);
+          this.state.who = length-1;
+          this.player(src, this.state.who);
         }else{
-          let preIndex = this.state.who-1;
-          let src = this.music[preIndex].url;
-          this.player(src, preIndex);
+          this.state.who = this.state.who-1;
+
+          let src = this.music[this.state.who].url;
+          this.player(src, this.state.who);
         }
       },
       next(){
@@ -184,9 +208,11 @@ const list = '/list';
         //判断是不是最后一首歌
         if(this.state.who == length-1){
           let src = this.music[0].url;
+          this.state.who = 0;
           this.player(src, 0);
         }else{
           let nextIndex = this.state.who+1;
+          this.state.who = this.state.who+1;
           let src = this.music[nextIndex].url;
           this.player(src, nextIndex);
         }
@@ -211,15 +237,21 @@ const list = '/list';
           if (item == parseInt(current-20) ) {
             // console.log( self.geci.gecishuzu[index]) ;
             // if(index>1){
-              self.geci.haha1 = self.geci.gecishuzu[index-4];
-              self.geci.haha2 = self.geci.gecishuzu[index-3];
-              self.geci.haha3 = self.geci.gecishuzu[index-2];
-              self.geci.haha4 = self.geci.gecishuzu[index-1];
-              self.geci.haha5 = self.geci.gecishuzu[index];
-              self.geci.haha6 = self.geci.gecishuzu[index+1];
-              self.geci.haha7 = self.geci.gecishuzu[index+2];
-              self.geci.haha8 = self.geci.gecishuzu[index+3];
-              self.geci.haha9 = self.geci.gecishuzu[index+4];
+              let str = [];
+              for(let i = -4; i < 5; i++){
+                str.push(self.geci.gecishuzu[index+i]);
+              }
+              self.changeShowGe(str);
+              
+              // self.geci.haha1 = self.geci.gecishuzu[index-4];
+              // self.geci.haha2 = self.geci.gecishuzu[index-3];
+              // self.geci.haha3 = self.geci.gecishuzu[index-2];
+              // self.geci.haha4 = self.geci.gecishuzu[index-1];
+              // self.geci.haha5 = self.geci.gecishuzu[index];
+              // self.geci.haha6 = self.geci.gecishuzu[index+1];
+              // self.geci.haha7 = self.geci.gecishuzu[index+2];
+              // self.geci.haha8 = self.geci.gecishuzu[index+3];
+              // self.geci.haha9 = self.geci.gecishuzu[index+4];
 
           }
         });
@@ -258,6 +290,14 @@ const list = '/list';
         //str[0]=""
         //str[1]="xx:xx.xx]歌词一"
         //str[2]="yy:yy.yy]歌词二"
+        //判断一下歌词是否为空
+        if (lrc.length == 0) {
+          this.geci.shijianshuzu = [];
+          this.geci.gecishuzu = [];
+          let str = ['没有歌词！'];
+          this.changeShowGe(str);
+          return;
+        }
           var str = lrc.split("[");
           for(let i = 1 ; i < str.length ; i++){
               var shijian = str[i].split(']')[0];
@@ -273,6 +313,18 @@ const list = '/list';
             // console.log(this.geci.shijianshuzu);
 
           }
+      },
+      changeShowGe(str){
+        
+        this.geci.haha1 = str[0];
+        this.geci.haha2 = str[1];
+        this.geci.haha3 = str[2];
+        this.geci.haha4 = str[3];
+        this.geci.haha5 = str[4];
+        this.geci.haha6 = str[5];
+        this.geci.haha7 = str[6];
+        this.geci.haha8 = str[7];
+        this.geci.haha9 = str[8];
       },
 
     } //end methods
