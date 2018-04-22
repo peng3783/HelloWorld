@@ -71,7 +71,23 @@
 import './about.css';
 //ajax
 import axios from 'axios';
+const list = '/list';
 	export default {
+    mounted(){
+      //上树后请求歌曲列表
+      let self = this;
+      axios.get('/list/music/')
+      .then(function(response){
+        //代理字符串
+        self.music = response.data;
+        self.vsrc = list+self.music[0].url;
+        // console.log(response.data);
+        // console.log(self.vsrc);        
+      })
+      .catch(function(error){
+        console.log(error);
+      })
+    },
     data() {
       return {
         geci:{
@@ -90,13 +106,8 @@ import axios from 'axios';
           "haha9":'',
         },
 
-        music: [
-          {"name": "萧敬腾 - 王妃", "url": "/list/music/萧敬腾 - 王妃.mp3"},
-          {"name": "G.E.M.邓紫棋 - 喜欢你", "url": "/list/music/G.E.M.邓紫棋 - 喜欢你.mp3"},
-          {"name": "陈百强 - 偏偏喜欢你", "url": "/list/music/陈百强 - 偏偏喜欢你.mp3"},
-
-        ],
-        vsrc: "/list/music/萧敬腾 - 王妃.mp3",
+        music: [],
+        vsrc: "",
         state : {
           showbfzt : "ture",
           who : 0,
@@ -110,25 +121,6 @@ import axios from 'axios';
           // max : 1,
           show : false
         },
-
-        list : [
-          {
-            "id": 1, "name": 'Knockin\' On Heaven\'s Door',
-            "artist": 'Guns N\' Roses',
-            "duration": 342,
-            "music": 'Guns N\' Roses - Knockin\' On Heaven\'s Door.mp3',
-            "poster": 'Guns N\' Roses.jpg',
-            "lyric": 'Guns N\' Roses - Knockin\' On Heaven\'s Door.lrc'
-          }
-        ],
-        item:  {
-          "id": 1, "name": 'Knockin\' On Heaven\'s Door',
-          "artist": 'Guns N\' Roses',
-          "duration": 342,
-          "music": 'Guns N\' Roses - Knockin\' On Heaven\'s Door.mp3',
-          "poster": 'Guns N\' Roses.jpg',
-          "lyric": 'Guns N\' Roses - Knockin\' On Heaven\'s Door.lrc'
-        }
       }
     },
 
@@ -141,7 +133,8 @@ import axios from 'axios';
           this.bofang();
         }else {
           this.$refs.vaudio.autoplay = "ture";
-          this.vsrc = src;
+          //增加代理字符
+          this.vsrc = list+src;
           //保存是列表中的那一首歌
           this.state.who = index;
         }
