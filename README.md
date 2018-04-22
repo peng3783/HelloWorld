@@ -37,3 +37,5 @@ cnpm install axios
 
 //图像表格使用echarts
 cnpm install echarts --save
+
+//git提交
