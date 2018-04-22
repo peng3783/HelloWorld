@@ -25,6 +25,7 @@
           <input type="file" name="tupian" multiple="multiple" 
 			@change="uploadChange" 
           ><br>
+					<img :src="yulanimg" alt="" class="yulanimg">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
         <!--   <input type="submit"  value="Upload" @click="dialogFormVisible = false" > -->
          <el-button type="primary" @click="submitForm()" value="Upload">上传</el-button>
@@ -73,7 +74,8 @@ import {mapState} from "vuex";
 		        dialogFormVisible: false,
 		        formLabelWidth: '300px',
 
-		        fileList: [],
+						fileList: [],
+						yulanimg:'',
 
 			}
 		},
@@ -149,6 +151,12 @@ uploadChange(event){
 	// console.log(event.target.files[0]);
 	if(event.target.files.length>0){
 		this.files = event.target.files[0];//提交的图片
+		let url = window.URL.createObjectURL(this.files);
+		// let img = document.createElement("img");
+		// img.src = url;
+		// document.getElementById
+		this.yulanimg = url;
+
 	}
 },
 submitForm(){
@@ -186,5 +194,10 @@ submitForm(){
   .el-breadcrumb {
     line-height: 3;
   }
+	.yulanimg {
+		max-width: 200px;
+		max-height: 200px;
+		display: block;
+	}
 
 </style>

@@ -144,7 +144,7 @@ const list = '/list';
             self.geci.geci = response.data;
              //解析歌词
             self.parse(self.geci.geci);
-            //  console.log(response.data);
+             console.log(response.data);
           })
           .catch(function(error){
             //没有lrc的时候要清空歌词
