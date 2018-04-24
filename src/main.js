@@ -4,13 +4,15 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 //ajax
 import axios from 'axios';
-// Vue.prototype.$http = axios;
+// 改写Vue原型属性，以后组件使用this.$http
+Vue.prototype.$http = axios;
 
 import App from './App.vue';
 //router
 import router from './router';
 //vuex store
-import store from './store.js' //引入store对象
+// import store from './store.js' //引入store对象
+import store from './store'
 //
 
 
