@@ -8,5 +8,6 @@
     }],
     "stage-3"
   ],
-  "plugins": ["transform-vue-jsx", "transform-runtime"]
+  "plugins": ["transform-vue-jsx", "transform-runtime",
+    "syntax-dynamic-import"]
 }

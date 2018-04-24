@@ -39,3 +39,9 @@ cnpm install axios
 cnpm install echarts --save
 
 //git提交
+//安装开发依赖可以使用import来实现懒加载
+cnpm install --save-dev babel-plugin-syntax-dynamic-import
+//然后还要在.babelrc中添加，才能识别import
+{
+  "plugins": ["syntax-dynamic-import"]
+}
