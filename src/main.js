@@ -12,9 +12,9 @@ import App from './App.vue';
 import router from './router';
 //vuex store
 // import store from './store.js' //引入store对象
-import store from './store'
+import store from './store';
 //
-
+import '@/common/stylus/index.styl';
 
 Vue.use(ElementUI)
 

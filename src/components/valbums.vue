@@ -37,13 +37,12 @@
 		<ul >
 			 <el-row :gutter="10">
 			  <el-col :xs="12" :sm="6" :md="6" :lg="6"
-			      v-for="item in $store.state.albums"
+			      v-for="item in albums"
 			   	  :key="item.id"
 			    ><li class="box"><a v-on:click="tiaozhuang(item)"><img src="../assets/wjj.png" height="50%" width="50%" alt=""><h4>{{item}}</h4></a></li></el-col>
 
 			</el-row>
 		</ul>
-
 
 
 
@@ -57,13 +56,15 @@ import axios from 'axios';
 //store 中的action 不会用 直接使用的this.$store.dispatch("valbums");
 import {mapActions} from "vuex";
 //store 中的state 不会用 直接使用的this.$store.state.albums 这里为什么要加this呢？ 只有调用的时候好像可以不加，改this.$store.dispatch和this.$router.push都不能去掉this，那么可不可以理解为实例的方法是要指定实例的，而调用的时候是全局默认的store中的值所以可以不用加？
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 
 	export default {
 		created(){
 			this.$store.dispatch("valbums");
 		},
-
+    computed:mapState([
+			'albums'
+		]),
 
 
 

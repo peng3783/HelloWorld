@@ -10,6 +10,23 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
+// mock数据添加了两个地方
+// 定义数据的读取
+const express = require('express')
+const app = express()
+const appData = require('../data.json')
+
+const seller = appData.seller
+const goods = appData.goods
+const ratings = appData.ratings
+// console.log(seller)
+// console.log(goods)
+// console.log(ratings)
+// 定义路由
+var apiRoutes = express.Router();
+app.use('/api', apiRoutes);
+// --end--
+
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
@@ -42,7 +59,30 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+    /*******************定义路由层***********************/
+    before(app) {
+      app.get('/api/seller', function (req, res) {
+        // 返回一个接口  errno:0表示请求数据时正常的
+        res.json({
+          errno: 0,
+          data: seller
+        })
+      }),
+        app.get('/api/goods', function (req, res) {
+          res.json({
+            errno: 0,
+            data: goods
+          })
+        }),
+        app.get('/api/ratings', function (req, res) {
+          res.json({
+            errno: 0,
+            data: ratings
+          })
+        })
     }
+    /********************************************************/
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -85,8 +125,8 @@ module.exports = new Promise((resolve, reject) => {
           messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
         },
         onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
+          ? utils.createNotifierCallback()
+          : undefined
       }))
 
       resolve(devWebpackConfig)

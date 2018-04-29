@@ -45,3 +45,6 @@ cnpm install --save-dev babel-plugin-syntax-dynamic-import
 {
   "plugins": ["syntax-dynamic-import"]
 }
+
+//组件化的过程，css样式怎么随之组件化？classMap组件化过程图片地址不知道怎么搞
+//verticalLine组件化的时候，字体大小线的颜色都不知道怎么选中改变

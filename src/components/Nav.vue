@@ -1,43 +1,42 @@
 <template>
-			<el-menu
-			  :default-active="activeIndex"
-			  class="el-menu-demo"
-			  mode="horizontal"
-			  @select="handleSelect"
-			  background-color="#545c64"
-			  text-color="#fff"
-			  active-text-color="#ffd04b">
-			  	<el-menu-item index="/home">Home</el-menu-item>
-			 	<el-menu-item index="/about">About</el-menu-item>
-			 	<el-menu-item index="/albums">相册</el-menu-item>
-			 	<el-menu-item index="/regist" id='regist' >注册</el-menu-item>
-			 	<el-menu-item index="/login" id='login' >登录</el-menu-item>
-			</el-menu>
-<!-- 对应的组件内容渲染到router-view中 -->
-			
+<div class="navtab border-1px">
+        <div class="tab-item">
+            <router-link to = "/home">Home</router-link>
+        </div>
+        <div class="tab-item"><router-link to = "/about">Music</router-link></div>
+        <div class="tab-item"><router-link to = "/albums">相册</router-link></div>
+				<div class="tab-item"><router-link to = "/sell">外卖</router-link></div>
+				<div class="tab-item"><router-link to = "/regist">注册</router-link></div>
+				<div class="tab-item"><router-link to = "/login">登录</router-link></div>
+</div>			
 </template>
 <!-- router-link 标签导航的时候有事会点击不跳转 -->
 <script>
-	export default{
-		  data() {
-      return {
-        activeIndex: '/home',
-   
-      };
-    },
-    methods: {
-      handleSelect(key, keyPath) {
-      	this.$router.push(key);
-        // console.log("key"+key, keyPath);
-      }
-    }
-	}
+export default {
+  data() {
+    return {}
+  },
+  methods: {}
+}
 </script>
 
-<style>
-	#regist, #login{
-		float:right;
-	}
-
-
+<style lang="stylus" rel="stylesheet/stylus">
+@import "../common/stylus/mixin.styl"
+.navtab
+	display flex
+	background-color rgba(160, 132, 132, 0.58)
+	width 100%
+	min-width 300px
+	height 40px
+	line-height 40px
+	.tab-item
+		flex 1
+		min-width 50px
+		text-align center
+		& > a
+			display block
+			&.active
+				color rgb(109, 6, 24)
+				border-1px(rgba(109, 6, 24, 0.8))
+				
 </style>

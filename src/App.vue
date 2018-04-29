@@ -1,118 +1,44 @@
 <template>
-  <el-container>
-     <el-header><Nav></Nav></el-header>
-     <el-container>   
-        <el-main>
+  <div class="container">
+    <div class="container-wrapper clearfix">
+      <div class="main">
+        <Nav></Nav>
+         <!-- 注释掉keep-alive才能显示 router-view,关于keep-alive的应用，这里就不需要keep-alive来保存数据-->
           <keep-alive>
-            <router-view></router-view>
+            <router-view ></router-view>
           </keep-alive>
-        </el-main>
-     </el-container>
-     <el-footer>Footer</el-footer>
-  </el-container>
+          <router-view name="sellview"></router-view>
+    </div>
+    </div>
+    <footer>I am footer </footer>
+  </div>
 </template>
 
 <script>
-  import Nav from './components/Nav.vue'
-  export default {
-    data(){
-      return {
-
-      }
-    },
-    components:{
-      Nav,
-    }
+import Nav from './components/Nav.vue'
+export default {
+  data() {
+    return {}
+  },
+  components: {
+    Nav
   }
+}
 </script>
 
-<style>
- 
-  /* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-  text-decoration: none;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-  display: block;
-}
-body {
-  line-height: 1;
-}
-ol, ul {
-  list-style: none;
-}
-blockquote, q {
-  quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content: '';
-  content: none;
-}
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-/*end reset*/
-
-.router-link-active {
-    text-decoration: none;
-}
-
-body, html { 
-  width: 100%; 
-  height: 100%;
-  background: #f0f2f5;
-  font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
-  font-size: 14px;
-  color: #444; 
-   
-}
-
-
-
-.el-main {
-  width: 100%;
-  height:100%;
-  margin: 0 auto;
-}
-
-.el-footer{
-  text-align: center;
-  height: 80px;
-  width: 100%;
-  line-height: 80px;
-  background: #e3e4e8;
-  clear: both;
-  margin-top: 30px;
-}
-
-  
-  
-  
- 
+<style lang="stylus" scoped>
+.container
+  position fixed
+  width 100%
+  height 100%
+  overflow scroll
+  .container-wrapper
+    width 100%
+    min-height 100%
+    .main
+      padding-bottom 32px
+  footer
+    position relative
+    margin -32px auto 0 auto
+    clear both
 </style>
