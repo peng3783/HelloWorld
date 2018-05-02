@@ -37,7 +37,7 @@
     <!--playlist-->
     <div class="list">
       <ul >
-        <li  v-for="(item,index) in music"  @dblclick="player(item.url, index)" >
+        <li  v-for="(item,index) in music"  @dblclick="player(item.url, index)" :key="index">
           <a href="#" >{{index+1}}--{{item.name}}</a>
 
         </li>

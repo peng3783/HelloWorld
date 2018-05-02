@@ -27,13 +27,16 @@
                 <div class="price">
                   <span class="now">￥{{food.price}}</span><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
+                <div class="cartcontrol-wrapper">
+                  <cartcontrol :food="food" v-on:oncartadd="cartadd"></cartcontrol>
+                </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" ></shopcart>
+    <shopcart ref="shopcart" :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" ></shopcart>
   </div>
 </template>
 
@@ -41,6 +44,7 @@
 import classMap from '../classMap/classMap.vue'
 import BScroll from 'better-scroll'
 import shopcart from '../shopcart/shopcart.vue'
+import cartcontrol from '../cartcontrol/cartcontrol.vue'
 import { mapState } from 'vuex'
 const ERR_OK = 0
 export default {
@@ -62,9 +66,18 @@ export default {
       }
       return 0
     },
-    ...mapState([
-      'seller'
-    ])
+    selectFoods() {
+      let foods = []
+      this.goods.forEach(good => {
+        good.foods.forEach(food => {
+          if (food.count) {
+            foods.push(food)
+          }
+        })
+      })
+      return foods
+    },
+    ...mapState(['seller'])
   },
   created() {
     this.$http.get('/api/goods').then(response => {
@@ -80,9 +93,16 @@ export default {
   },
   components: {
     classMap,
-    shopcart
+    shopcart,
+    cartcontrol
   },
   methods: {
+    cartadd(target) {
+      //第一次点击两个动画，体验优化异步执行下落动画
+      this.$nextTick(() => {
+        this.$refs.shopcart.drop(target)
+      })
+    },
     selectMenu(index, event) {
       let foodList = this.$refs.foodsWrapper.getElementsByClassName(
         'food-list-hook'
@@ -92,9 +112,10 @@ export default {
     },
     _initScroll() {
       this.menuScroll = new BScroll(this.$refs.menuWrapper, {
-        click:true
+        click: true
       })
       this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+        click: true,
         probeType: 3
       }) //probeType: 3 实时得到滚动的位置
       this.foodsScroll.on('scroll', pos => {
@@ -210,4 +231,8 @@ export default {
             text-decoration line-through
             font-size 10px
             color rgb(147, 153, 159)
+        .cartcontrol-wrapper
+          position absolute
+          right 0
+          bottom 12px
 </style>
