@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="goods">
     <div class="menu-wrapper" ref="menuWrapper">
       <ul>
@@ -38,6 +39,8 @@
     </div>
     <shopcart ref="shopcart" :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" ></shopcart>
   </div>
+  <food :food="selectFood"></food>
+</div>
 </template>
 
 <script>
@@ -45,6 +48,7 @@ import classMap from '../classMap/classMap.vue'
 import BScroll from 'better-scroll'
 import shopcart from '../shopcart/shopcart.vue'
 import cartcontrol from '../cartcontrol/cartcontrol.vue'
+import food from '../food/food.vue'
 import { mapState } from 'vuex'
 const ERR_OK = 0
 export default {
@@ -52,7 +56,8 @@ export default {
     return {
       goods: [],
       listHeight: [],
-      scrollY: 0
+      scrollY: 0,
+      selectFood: {}
     }
   },
   computed: {
@@ -94,7 +99,8 @@ export default {
   components: {
     classMap,
     shopcart,
-    cartcontrol
+    cartcontrol,
+    food
   },
   methods: {
     cartadd(target) {

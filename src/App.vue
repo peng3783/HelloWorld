@@ -10,7 +10,7 @@
           <router-view name="sellview"></router-view>
     </div>
     </div>
-    <footer>I am footer </footer>
+    <!-- <footer>I am footer </footer> -->
   </div>
 </template>
 

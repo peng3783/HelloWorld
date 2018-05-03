@@ -1,13 +1,11 @@
 <template>
 <div class="navtab border-1px">
-        <div class="tab-item">
-            <router-link to = "/home">Home</router-link>
-        </div>
-        <div class="tab-item"><router-link to = "/about">Music</router-link></div>
-        <div class="tab-item"><router-link to = "/albums">相册</router-link></div>
-				<div class="tab-item"><router-link to = "/sell">外卖</router-link></div>
-				<div class="tab-item"><router-link to = "/regist">注册</router-link></div>
-				<div class="tab-item"><router-link to = "/login">登录</router-link></div>
+  <div class="tab-item"><router-link to = "/home">Home</router-link></div>
+  <div class="tab-item"><router-link to = "/about">Music</router-link></div>
+  <div class="tab-item"><router-link to = "/albums">相册</router-link></div>
+	<div class="tab-item"><router-link to = "/sell">外卖</router-link></div>
+	<div class="tab-item"><router-link to = "/regist">注册</router-link></div>
+	<div class="tab-item"><router-link to = "/login">登录</router-link></div>
 </div>			
 </template>
 <!-- router-link 标签导航的时候有事会点击不跳转 -->
